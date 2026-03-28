@@ -8,7 +8,8 @@
       "Bash(npm run:*)",
       "Bash(node:*)",
       "Bash(ls /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.png /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpeg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.webp)",
-      "Bash(\"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/data/content.js\":*)"
+      "Bash(\"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/data/content.js\":*)",
+      "WebFetch(domain:waelprogrammer.github.io)"
     ]
   }
 }
