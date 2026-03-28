@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;--sidebar:#111;--card:#181818;--card2:#1f1f1f;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);
+  --text:#f1f5f9;--dim:#94a3b8;--muted:#64748b;
+  --blue:#3b82f6;--blue2:#2563eb;--green:#10b981;--red:#ef4444;--amber:#f59e0b;
+}
+body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;display:flex;height:100vh;overflow:hidden;font-size:14px}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;flex-shrink:0}
+.logo-text{font-weight:700;font-size:15px}
+.logo-text span{color:var(--blue)}
+.nav{flex:1;padding:12px 0;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;color:var(--muted);font-weight:500;font-size:13px;transition:all .15s;border-left:2px solid transparent;user-select:none}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.nav-item.active{color:var(--blue);background:rgba(59,130,246,0.08);border-left-color:var(--blue)}
+.nav-icon{font-size:16px;width:18px;text-align:center}
+.sidebar-bottom{padding:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{padding:0 24px;height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--sidebar);flex-shrink:0}
+.topbar-title{font-size:16px;font-weight:700;flex:1}
+.unsaved-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3);display:none}
+.unsaved-badge.show{display:inline-flex;align-items:center;gap:4px}
+.content-area{flex:1;overflow-y:auto;padding:28px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue2)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#059669}
+.btn-red{background:var(--red);color:#fff;padding:6px 10px;font-size:12px}.btn-red:hover{background:#dc2626}
+.btn-ghost{background:rgba(255,255,255,0.06);color:var(--dim);border:1px solid var(--border)}.btn-ghost:hover{color:var(--text);background:rgba(255,255,255,0.1)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── FORMS ── */
+.form-grid{display:grid;gap:16px;margin-bottom:18px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g1{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+input[type=text],input[type=email],input[type=url],textarea,select{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:9px 12px;border-radius:8px;font-size:13px;outline:none;
+  transition:border-color .2s,box-shadow .2s;width:100%;font-family:inherit
+}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+textarea{resize:vertical;min-height:90px;line-height:1.5}
+select option{background:#1a1a1a}
+input[type=color]{width:44px;height:36px;padding:2px 3px;border-radius:8px;cursor:pointer;background:var(--card);border:1px solid var(--border)}
+
+/* ── TOGGLE ── */
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:12px;cursor:pointer;transition:background .2s}
+.slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+.toggle input:checked+.slider{background:var(--green)}
+.toggle input:checked+.slider:before{transform:translateX(18px)}
+.toggle-label{font-size:13px;font-weight:500;color:var(--dim)}
+
+/* ── SECTION HEADER ── */
+.section-header{margin-bottom:24px}
+.section-header h2{font-size:22px;font-weight:800;margin-bottom:4px}
+.section-header p{color:var(--muted);font-size:13px}
+
+/* ── CARDS (for array items) ── */
+.item-list{display:flex;flex-direction:column;gap:10px}
+.item-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.item-card-head{display:flex;align-items:center;padding:12px 14px;cursor:pointer;gap:10px;user-select:none}
+.item-card-head:hover{background:rgba(255,255,255,.03)}
+.item-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.item-card-title{font-weight:600;font-size:14px;flex:1}
+.item-card-sub{font-size:12px;color:var(--muted)}
+.chevron{color:var(--muted);font-size:12px;transition:transform .2s;flex-shrink:0}
+.item-card.open .chevron{transform:rotate(180deg)}
+.item-card-body{display:none;padding:16px;border-top:1px solid var(--border);background:rgba(255,255,255,.015)}
+.item-card.open .item-card-body{display:block}
+
+/* ── GRADIENT PICKER ── */
+.gradient-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.gpill{width:36px;height:36px;border-radius:8px;cursor:pointer;border:3px solid transparent;transition:all .2s;outline:none}
+.gpill:hover{transform:scale(1.1)}
+.gpill.sel{border-color:#fff;transform:scale(1.12);box-shadow:0 0 12px rgba(255,255,255,.3)}
+
+/* ── TAGS INPUT ── */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px;background:var(--card);border:1px solid var(--border);border-radius:8px;min-height:40px;cursor:text}
+.tags-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.tag-chip{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:rgba(59,130,246,.15);color:#93c5fd;font-size:12px;font-weight:600;border:1px solid rgba(59,130,246,.25)}
+.tag-chip button{background:none;border:none;color:#93c5fd;cursor:pointer;font-size:13px;line-height:1;padding:0 1px}
+.tag-chip button:hover{color:#fff}
+.tag-input{background:none;border:none;outline:none;color:var(--text);font-size:13px;min-width:80px;flex:1;padding:2px 4px}
+
+/* ── ADD ROW ── */
+.add-row{display:flex;justify-content:flex-end;margin-bottom:14px}
+
+/* ── STAT ROW ── */
+.stat-box{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.stat-val-preview{font-size:28px;font-weight:900;background:linear-gradient(135deg,#3b82f6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ── DEPLOY LOG ── */
+.deploy-log{background:#000;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:#4ade80;min-height:60px;max-height:180px;overflow-y:auto;margin-top:12px;white-space:pre-wrap;display:none}
+.deploy-log.show{display:block}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;pointer-events:none;opacity:0;transform:translateY(8px);transition:all .3s}
+#toast.show{opacity:1;transform:translateY(0)}
+#toast.success{background:var(--green);color:#fff}
+#toast.error{background:var(--red);color:#fff}
+#toast.info{background:var(--blue);color:#fff}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+@media(max-width:640px){.sidebar{width:180px}.g2,.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">W</div>
+    <div class="logo-text">Portfolio <span>Admin</span></div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-item active" data-s="personal"><span class="nav-icon">👤</span>Personal</div>
+    <div class="nav-item" data-s="bio"><span class="nav-icon">📝</span>Bio & Hero</div>
+    <div class="nav-item" data-s="stats"><span class="nav-icon">📊</span>Stats</div>
+    <div class="nav-item" data-s="projects"><span class="nav-icon">🚀</span>Projects</div>
+    <div class="nav-item" data-s="skills"><span class="nav-icon">⚡</span>Skills</div>
+    <div class="nav-item" data-s="services"><span class="nav-icon">🛠️</span>Services</div>
+    <div class="nav-item" data-s="settings"><span class="nav-icon">⚙️</span>Settings</div>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <button class="btn btn-green" id="deployBtn">🚀 Deploy to GitHub</button>
+    <button class="btn btn-ghost" id="previewBtn" onclick="window.open('http://localhost:5173','_blank')">👁 Preview Site</button>
+  </div>
+</aside>
+
+<!-- ════════════════════════════════ MAIN ════════════════════════════════ -->
+<div class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topTitle">Personal Info</span>
+    <span class="unsaved-badge" id="unsavedBadge">● Unsaved changes</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadData()">↺ Reload</button>
+    <button class="btn btn-primary" id="saveBtn" onclick="saveAll()">💾 Save</button>
+  </div>
+  <div class="content-area" id="content"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let D = null          // full data object
+let section = 'personal'
+let dirty = false
+
+const SECTIONS = {
+  personal: 'Personal Info',
+  bio:      'Bio & Hero Text',
+  stats:    'Stats',
+  projects: 'Projects',
+  skills:   'Skills',
+  services: 'Services',
+  settings: 'Settings & Design',
+}
+
+const GRADIENTS = {
+  blue:   'linear-gradient(135deg,#1d4ed8,#06b6d4)',
+  orange: 'linear-gradient(135deg,#c2410c,#f59e0b)',
+  purple: 'linear-gradient(135deg,#7c3aed,#ec4899)',
+  green:  'linear-gradient(135deg,#065f46,#10b981)',
+  red:    'linear-gradient(135deg,#991b1b,#ef4444)',
+  cyan:   'linear-gradient(135deg,#0e7490,#22d3ee)',
+}
+
+const CATEGORIES = ['Frontend','Backend','Database','CMS','Tools']
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadData() {
+  try {
+    const r = await fetch('/api/content')
+    D = await r.json()
+    render()
+    setDirty(false)
+    toast('Data loaded', 'info')
+  } catch(e) {
+    toast('Failed to load data: '+e.message, 'error')
+  }
+}
+
+function init() {
+  // Nav clicks
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.addEventListener('click', () => {
+      section = el.dataset.s
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
+      el.classList.add('active')
+      document.getElementById('topTitle').textContent = SECTIONS[section]
+      render()
+    })
+  })
+
+  // Deploy
+  document.getElementById('deployBtn').addEventListener('click', deploy)
+
+  loadData()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  DIRTY / SAVE STATE
+// ═══════════════════════════════════════════════════════════════════════════
+function setDirty(v) {
+  dirty = v
+  document.getElementById('unsavedBadge').classList.toggle('show', v)
+  document.getElementById('saveBtn').textContent = v ? '💾 Save*' : '💾 Save'
+}
+
+function markDirty() { setDirty(true) }
+
+// Watch inputs inside content area
+function watchInputs() {
+  document.getElementById('content').querySelectorAll('input,textarea,select').forEach(el => {
+    el.addEventListener('input', markDirty)
+    el.addEventListener('change', markDirty)
+  })
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  RENDER ROUTER
+// ═══════════════════════════════════════════════════════════════════════════
+function render() {
+  const el = document.getElementById('content')
+  const fns = { personal:renderPersonal, bio:renderBio, stats:renderStats,
+                projects:renderProjects, skills:renderSkills, services:renderServices,
+                settings:renderSettings }
+  el.innerHTML = fns[section]()
+  watchInputs()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  COLLECT ALL DATA FROM DOM
+// ═══════════════════════════════════════════════════════════════════════════
+function collectAll() {
+  // Collect whatever section is currently visible, store into D
+  const fns = {
+    personal: collectPersonal, bio: collectBio, stats: collectStats,
+    projects: collectProjects, skills: collectSkills, services: collectServices,
+    settings: collectSettings,
+  }
+  fns[section]()
+}
+
+function g(id) { return document.getElementById(id) }
+function gv(id) { const el = g(id); return el ? el.value.trim() : '' }
+function gc(id) { const el = g(id); return el ? el.checked : false }
+
+function collectPersonal() {
+  D.personal = {
+    name:      gv('p_name'),
+    title:     gv('p_title'),
+    email:     gv('p_email'),
+    github:    gv('p_github'),
+    linkedin:  gv('p_linkedin'),
+    location:  gv('p_location'),
+    photo:     gv('p_photo'),
+    cvUrl:     gv('p_cvUrl'),
+    available: gc('p_available'),
+  }
+}
+
+function collectBio() {
+  D.bio = {
+    hero:   gv('b_hero'),
+    about1: gv('b_about1'),
+    about2: gv('b_about2'),
+  }
+}
+
+function collectStats() {
+  D.stats = Array.from(document.querySelectorAll('.stat-item')).map(el => ({
+    value: el.querySelector('.sv').value.trim(),
+    label: el.querySelector('.sl').value.trim(),
+  }))
+}
+
+function collectProjects() {
+  D.projects = Array.from(document.querySelectorAll('.proj-card')).map((el, i) => {
+    const tagsEl = el.querySelector('.tags-data')
+    return {
+      id:          parseInt(el.dataset.id) || (i+1),
+      title:       el.querySelector('.pj_title').value.trim(),
+      description: el.querySelector('.pj_desc').value.trim(),
+      tags:        tagsEl ? JSON.parse(tagsEl.value||'[]') : [],
+      liveUrl:     el.querySelector('.pj_live').value.trim(),
+      sourceUrl:   el.querySelector('.pj_src').value.trim(),
+      gradient:    el.querySelector('.pj_gradient').value,
+      featured:    el.querySelector('.pj_feat').checked,
+    }
+  })
+}
+
+function collectSkills() {
+  D.skills = Array.from(document.querySelectorAll('.skill-card')).map(el => ({
+    name:     el.querySelector('.sk_name').value.trim(),
+    category: el.querySelector('.sk_cat').value,
+    color:    el.querySelector('.sk_color').value,
+  }))
+}
+
+function collectServices() {
+  D.services = Array.from(document.querySelectorAll('.svc-card')).map(el => ({
+    title: el.querySelector('.svc_title').value.trim(),
+    desc:  el.querySelector('.svc_desc').value.trim(),
+  }))
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SAVE
+// ═══════════════════════════════════════════════════════════════════════════
+async function saveAll() {
+  collectAll()
+  try {
+    const r = await fetch('/api/content', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(D, null, 2),
+    })
+    const j = await r.json()
+    if (j.ok) { toast('Saved! Switch to the site tab and press F5 if it didn\'t update.','success'); setDirty(false) }
+    else toast('Error saving: '+j.error,'error')
+  } catch(e) { toast('Save failed: '+e.message,'error') }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  DEPLOY
+// ═══════════════════════════════════════════════════════════════════════════
+async function deploy() {
+  const log = document.getElementById('deployLog')
+  const btn = document.getElementById('deployBtn')
+  if (!log) { toast('Save first, then deploy.','info'); return }
+  log.classList.add('show')
+  log.textContent = 'Deploying...'
+  btn.disabled = true
+  btn.textContent = '⏳ Deploying...'
+  try {
+    const r = await fetch('/api/deploy',{method:'POST'})
+    const j = await r.json()
+    log.textContent = j.output || 'Done.'
+    if (j.ok) toast('Pushed to GitHub! Vercel will auto-deploy.','success')
+    else toast('Deploy issue — see log below','error')
+  } catch(e) {
+    log.textContent = e.message
+    toast('Deploy failed','error')
+  }
+  btn.disabled = false
+  btn.textContent = '🚀 Deploy to GitHub'
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════════════════════════
+let toastTimer
+function toast(msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.className = `show ${type}`
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(()=>{ el.className='' }, 3000)
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  ACCORDION TOGGLE
+// ═══════════════════════════════════════════════════════════════════════════
+function toggleCard(el) {
+  const card = el.closest('.item-card')
+  card.classList.toggle('open')
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TAGS WIDGET
+// ═══════════════════════════════════════════════════════════════════════════
+function initTags(wrapperId, hiddenId) {
+  const wrap = document.getElementById(wrapperId)
+  const hidden = document.getElementById(hiddenId)
+  if (!wrap || !hidden) return
+  const inp = wrap.querySelector('.tag-input')
+
+  function getTags() { return JSON.parse(hidden.value || '[]') }
+  function setTags(arr) { hidden.value = JSON.stringify(arr); renderChips(arr); markDirty() }
+
+  function renderChips(arr) {
+    wrap.querySelectorAll('.tag-chip').forEach(c=>c.remove())
+    arr.forEach(tag => {
+      const chip = document.createElement('span')
+      chip.className = 'tag-chip'
+      chip.innerHTML = `${tag}<button onclick="removeTag('${wrapperId}','${hiddenId}','${tag}')">×</button>`
+      wrap.insertBefore(chip, inp)
+    })
+  }
+
+  inp.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ',') && inp.value.trim()) {
+      e.preventDefault()
+      const tags = getTags()
+      const val = inp.value.trim().replace(',','')
+      if (val && !tags.includes(val)) { tags.push(val); setTags(tags) }
+      inp.value = ''
+    }
+    if (e.key === 'Backspace' && !inp.value) {
+      const tags = getTags()
+      tags.pop()
+      setTags(tags)
+    }
+  })
+
+  renderChips(getTags())
+}
+
+function removeTag(wrapperId, hiddenId, tag) {
+  const hidden = document.getElementById(hiddenId)
+  const tags = JSON.parse(hidden.value||'[]').filter(t=>t!==tag)
+  hidden.value = JSON.stringify(tags)
+  const wrap = document.getElementById(wrapperId)
+  wrap.querySelectorAll('.tag-chip').forEach(c=>c.remove())
+  const inp = wrap.querySelector('.tag-input')
+  tags.forEach(t => {
+    const chip = document.createElement('span')
+    chip.className = 'tag-chip'
+    chip.innerHTML = `${t}<button onclick="removeTag('${wrapperId}','${hiddenId}','${t}')">×</button>`
+    wrap.insertBefore(chip, inp)
+  })
+  markDirty()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  GRADIENT PICKER WIDGET
+// ═══════════════════════════════════════════════════════════════════════════
+function selectGradient(selectId, name) {
+  const sel = document.getElementById(selectId)
+  if (sel) sel.value = name
+  const picker = sel?.closest('.item-card-body')?.querySelector('.gradient-picker')
+  if (picker) picker.querySelectorAll('.gpill').forEach(p=>p.classList.toggle('sel', p.dataset.g===name))
+  markDirty()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: PERSONAL
+// ═══════════════════════════════════════════════════════════════════════════
+function renderPersonal() {
+  const p = D.personal
+  return `
+    <div class="section-header">
+      <h2>Personal Info</h2>
+      <p>Your name, contact links, photo URL, and availability status.</p>
+    </div>
+    <div class="form-grid g2">
+      <div class="form-group"><label>Full Name</label><input type="text" id="p_name" value="${esc(p.name)}"/></div>
+      <div class="form-group"><label>Job Title</label><input type="text" id="p_title" value="${esc(p.title)}"/></div>
+    </div>
+    <div class="form-grid g2">
+      <div class="form-group"><label>Email</label><input type="email" id="p_email" value="${esc(p.email)}"/></div>
+      <div class="form-group"><label>Location</label><input type="text" id="p_location" value="${esc(p.location)}"/></div>
+    </div>
+    <div class="form-grid g2">
+      <div class="form-group"><label>GitHub URL</label><input type="url" id="p_github" value="${esc(p.github)}"/></div>
+      <div class="form-group"><label>LinkedIn URL</label><input type="url" id="p_linkedin" value="${esc(p.linkedin)}"/></div>
+    </div>
+    <div class="form-grid g2">
+      <div class="form-group"><label>Photo path (in /public)</label><input type="text" id="p_photo" value="${esc(p.photo)}" placeholder="/your-photo.jpg"/></div>
+      <div class="form-group"><label>CV / Resume URL</label><input type="url" id="p_cvUrl" value="${esc(p.cvUrl)}" placeholder="#"/></div>
+    </div>
+    <hr/>
+    <div class="toggle-wrap">
+      <label class="toggle"><input type="checkbox" id="p_available" ${p.available?'checked':''}><span class="slider"></span></label>
+      <span class="toggle-label">Show "Available for work" badge</span>
+    </div>`
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: BIO
+// ═══════════════════════════════════════════════════════════════════════════
+function renderBio() {
+  const b = D.bio
+  return `
+    <div class="section-header">
+      <h2>Bio & Hero Text</h2>
+      <p>The text shown in the hero section and the About section.</p>
+    </div>
+    <div class="form-grid g1">
+      <div class="form-group">
+        <label>Hero subtitle (shown under your name on homepage)</label>
+        <textarea id="b_hero" style="min-height:120px">${esc(b.hero)}</textarea>
+      </div>
+      <div class="form-group">
+        <label>About — paragraph 1</label>
+        <textarea id="b_about1">${esc(b.about1)}</textarea>
+      </div>
+      <div class="form-group">
+        <label>About — paragraph 2</label>
+        <textarea id="b_about2">${esc(b.about2)}</textarea>
+      </div>
+    </div>`
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: STATS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderStats() {
+  const rows = D.stats.map((s,i)=>`
+    <div class="stat-box stat-item">
+      <div>
+        <div class="stat-val-preview">${esc(s.value)}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(s.label)}</div>
+      </div>
+      <div class="form-grid g1" style="margin:0">
+        <div class="form-group"><label>Value (e.g. 3+)</label><input class="sv" type="text" value="${esc(s.value)}"/></div>
+        <div class="form-group"><label>Label</label><input class="sl" type="text" value="${esc(s.label)}"/></div>
+      </div>
+    </div>`).join('')
+  return `
+    <div class="section-header">
+      <h2>Stats</h2>
+      <p>The 3 numbers shown in the About section (e.g. "3+ Years Coding").</p>
+    </div>
+    ${rows}
+    <p style="color:var(--muted);font-size:12px;margin-top:8px">Note: Exactly 3 stats are shown. Edit the values and labels above.</p>`
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: PROJECTS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderProjects() {
+  const cards = D.projects.map((p,i) => renderProjectCard(p,i)).join('')
+  return `
+    <div class="section-header">
+      <h2>Projects</h2>
+      <p>Set <strong>Featured</strong> to show a project on the homepage. All projects appear on the Projects page.</p>
+    </div>
+    <div class="add-row"><button class="btn btn-primary btn-sm" onclick="addProject()">+ Add Project</button></div>
+    <div class="item-list" id="projectList">${cards}</div>
+    <hr/>
+    <div id="deployLog" class="deploy-log"></div>`
+}
+
+function renderProjectCard(p, i) {
+  const gpills = Object.entries(GRADIENTS).map(([name,grad])=>`
+    <div class="gpill ${p.gradient===name?'sel':''}" style="background:${grad}"
+         data-g="${name}" title="${name}" onclick="selectGradient('pg_grad_${i}','${name}')"></div>`).join('')
+  const tagsJson = JSON.stringify(p.tags||[])
+  return `
+    <div class="item-card proj-card" data-id="${p.id}">
+      <div class="item-card-head" onclick="toggleCard(this)">
+        <div class="gpill" style="background:${GRADIENTS[p.gradient]||GRADIENTS.blue};width:28px;height:28px;flex-shrink:0;border:none"></div>
+        <span class="item-card-title">${esc(p.title)||'Untitled Project'}</span>
+        ${p.featured?'<span class="item-badge">Featured</span>':''}
+        <span class="chevron">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="form-grid g1">
+          <div class="form-group"><label>Project Title</label><input class="pj_title" type="text" value="${esc(p.title)}"/></div>
+          <div class="form-group"><label>Description</label><textarea class="pj_desc">${esc(p.description)}</textarea></div>
+        </div>
+        <div class="form-grid g2">
+          <div class="form-group"><label>Live URL</label><input class="pj_live" type="url" value="${esc(p.liveUrl)}" placeholder="https://..."/></div>
+          <div class="form-group"><label>Source / GitHub URL</label><input class="pj_src" type="url" value="${esc(p.sourceUrl)}" placeholder="https://github.com/..."/></div>
+        </div>
+        <div class="form-grid g1">
+          <div class="form-group">
+            <label>Tags (press Enter or comma to add)</label>
+            <div class="tags-wrap" id="tw_p${i}">
+              <input class="tag-input" placeholder="e.g. React"/>
+            </div>
+            <input type="hidden" id="th_p${i}" class="tags-data" value='${tagsJson}'/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Gradient Color</label>
+          <select class="pj_gradient" id="pg_grad_${i}" style="display:none">${Object.keys(GRADIENTS).map(k=>`<option value="${k}" ${p.gradient===k?'selected':''}>${k}</option>`).join('')}</select>
+          <div class="gradient-picker">${gpills}</div>
+        </div>
+        <div class="toggle-wrap" style="margin-bottom:16px">
+          <label class="toggle"><input class="pj_feat" type="checkbox" ${p.featured?'checked':''}><span class="slider"></span></label>
+          <span class="toggle-label">Show on homepage (Featured)</span>
+        </div>
+        <button class="btn btn-red btn-sm" onclick="removeProject(this)">🗑 Remove Project</button>
+      </div>
+    </div>`
+}
+
+function addProject() {
+  const newP = { id: Date.now(), title:'New Project', description:'', tags:[], liveUrl:'#', sourceUrl:'#', gradient:'blue', featured:false }
+  D.projects.push(newP)
+  const list = document.getElementById('projectList')
+  const div = document.createElement('div')
+  const i = D.projects.length - 1
+  div.innerHTML = renderProjectCard(newP, i)
+  const card = div.firstElementChild
+  list.appendChild(card)
+  card.classList.add('open')
+  initTags(`tw_p${i}`, `th_p${i}`)
+  watchInputs()
+  markDirty()
+  card.scrollIntoView({ behavior:'smooth', block:'start' })
+}
+
+function removeProject(btn) {
+  if (!confirm('Remove this project?')) return
+  const card = btn.closest('.proj-card')
+  card.remove()
+  markDirty()
+}
+
+function initAllProjectTags() {
+  D.projects.forEach((_,i) => initTags(`tw_p${i}`,`th_p${i}`))
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: SKILLS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderSkills() {
+  const byCategory = {}
+  D.skills.forEach(s => {
+    if (!byCategory[s.category]) byCategory[s.category] = []
+    byCategory[s.category].push(s)
+  })
+  const cards = D.skills.map((s,i)=>renderSkillCard(s,i)).join('')
+  return `
+    <div class="section-header">
+      <h2>Skills</h2>
+      <p>Add, remove or edit skills. Pick a color for each skill icon.</p>
+    </div>
+    <div class="add-row"><button class="btn btn-primary btn-sm" onclick="addSkill()">+ Add Skill</button></div>
+    <div class="item-list" id="skillList">${cards}</div>`
+}
+
+function renderSkillCard(s, i) {
+  return `
+    <div class="item-card skill-card">
+      <div class="item-card-head" onclick="toggleCard(this)">
+        <div style="width:18px;height:18px;border-radius:4px;background:${esc(s.color)};flex-shrink:0;border:1px solid rgba(255,255,255,.2)"></div>
+        <span class="item-card-title">${esc(s.name)}</span>
+        <span class="item-badge">${esc(s.category)}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="form-grid g2">
+          <div class="form-group"><label>Skill Name</label><input class="sk_name" type="text" value="${esc(s.name)}"/></div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="sk_cat">
+              ${CATEGORIES.map(c=>`<option value="${c}" ${s.category===c?'selected':''}>${c}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Icon Color</label>
+          <div style="display:flex;align-items:center;gap:10px">
+            <input class="sk_color" type="color" value="${esc(s.color)}"/>
+            <span style="font-size:12px;color:var(--muted)">Click to pick a color for the skill icon glow</span>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn btn-red btn-sm" onclick="removeSkill(this)">🗑 Remove Skill</button>
+        </div>
+      </div>
+    </div>`
+}
+
+function addSkill() {
+  const newS = { name:'New Skill', category:'Frontend', color:'#3b82f6' }
+  D.skills.push(newS)
+  const list = document.getElementById('skillList')
+  const div = document.createElement('div')
+  div.innerHTML = renderSkillCard(newS, D.skills.length-1)
+  const card = div.firstElementChild
+  list.appendChild(card)
+  card.classList.add('open')
+  watchInputs()
+  markDirty()
+  card.scrollIntoView({ behavior:'smooth', block:'start' })
+}
+
+function removeSkill(btn) {
+  if (!confirm('Remove this skill?')) return
+  btn.closest('.skill-card').remove()
+  markDirty()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: SERVICES
+// ═══════════════════════════════════════════════════════════════════════════
+function renderServices() {
+  const cards = D.services.map((s,i)=>renderServiceCard(s,i)).join('')
+  return `
+    <div class="section-header">
+      <h2>Services</h2>
+      <p>The service cards shown on your homepage.</p>
+    </div>
+    <div class="add-row"><button class="btn btn-primary btn-sm" onclick="addService()">+ Add Service</button></div>
+    <div class="item-list" id="serviceList">${cards}</div>`
+}
+
+function renderServiceCard(s, i) {
+  return `
+    <div class="item-card svc-card">
+      <div class="item-card-head" onclick="toggleCard(this)">
+        <span class="item-card-title">${esc(s.title)}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="form-grid g1">
+          <div class="form-group"><label>Service Title</label><input class="svc_title" type="text" value="${esc(s.title)}"/></div>
+          <div class="form-group"><label>Description</label><textarea class="svc_desc">${esc(s.desc)}</textarea></div>
+        </div>
+        <button class="btn btn-red btn-sm" onclick="removeService(this)">🗑 Remove Service</button>
+      </div>
+    </div>`
+}
+
+function addService() {
+  D.services.push({ title:'New Service', desc:'' })
+  const list = document.getElementById('serviceList')
+  const div = document.createElement('div')
+  div.innerHTML = renderServiceCard({ title:'New Service', desc:'' }, D.services.length-1)
+  const card = div.firstElementChild
+  list.appendChild(card)
+  card.classList.add('open')
+  watchInputs()
+  markDirty()
+  card.scrollIntoView({ behavior:'smooth', block:'start' })
+}
+
+function removeService(btn) {
+  if (!confirm('Remove this service?')) return
+  btn.closest('.svc-card').remove()
+  markDirty()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SECTION: SETTINGS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderSettings() {
+  const s = D.settings || {}
+  const seo = s.seo || {}
+  const accent = s.accentColor || '#3b82f6'
+
+  return `
+    <div class="section-header">
+      <h2>Settings & Design</h2>
+      <p>Control the site accent color and SEO metadata.</p>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="font-weight:700;font-size:14px;margin-bottom:4px">🎨 Accent Color</div>
+      <div style="color:var(--muted);font-size:12px;margin-bottom:14px">Used for buttons, links, and highlights across the site. Default: #3b82f6 (blue).</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <input type="color" id="st_accent" value="${esc(accent)}" style="width:56px;height:44px"/>
+        <div>
+          <div id="accentPreview" style="font-size:13px;font-weight:600;color:${esc(accent)}">${esc(accent)}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Click the swatch to change color</div>
+        </div>
+        <div style="width:120px;height:36px;border-radius:8px;background:${esc(accent)};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff" id="accentBtn">Button preview</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <div style="font-weight:700;font-size:14px;margin-bottom:4px">🔍 SEO / Meta</div>
+      <div style="color:var(--muted);font-size:12px;margin-bottom:14px">Controls the browser tab title and search engine description.</div>
+      <div class="form-grid g1">
+        <div class="form-group">
+          <label>Page Title (browser tab)</label>
+          <input type="text" id="st_seoTitle" value="${esc(seo.title||'')}" placeholder="Wael Taleb — Full-Stack Web Developer"/>
+        </div>
+        <div class="form-group">
+          <label>Meta Description (for search engines)</label>
+          <textarea id="st_seoDesc" style="min-height:70px">${esc(seo.description||'')}</textarea>
+        </div>
+      </div>
+    </div>`
+}
+
+// Update accent preview live
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'st_accent') {
+    const v = e.target.value
+    const prev = document.getElementById('accentPreview')
+    const btn  = document.getElementById('accentBtn')
+    if (prev) prev.style.color = v, prev.textContent = v
+    if (btn)  btn.style.background = v
+  }
+})
+
+function collectSettings() {
+  D.settings = {
+    accentColor: gv('st_accent') || '#3b82f6',
+    seo: {
+      title:       gv('st_seoTitle'),
+      description: gv('st_seoDesc'),
+    },
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+function esc(s) {
+  if (s == null) return ''
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
+
+// After project section renders, init tag widgets
+const origRender = render
+window.render = function() {
+  origRender()
+  if (section === 'projects') initAllProjectTags()
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  KEYBOARD SHORTCUT: Ctrl+S = Save
+// ═══════════════════════════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault()
+    saveAll()
+  }
+})
+
+// Start
+init()
+</script>
+</body>
+</html>

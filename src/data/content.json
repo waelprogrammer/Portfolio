@@ -1,0 +1,186 @@
+{
+  "personal": {
+    "name": "WAEL TALEB",
+    "title": "Full-Stack Web Developer",
+    "email": "waelprogrammer028@gmail.com",
+    "github": "https://github.com/waelprogrammer",
+    "linkedin": "https://www.linkedin.com/in/wael-taleb",
+    "location": "Lebanon",
+    "photo": "/Gemini_Generated_Image_suknqbsuknqbsukn.png",
+    "cvUrl": "#",
+    "available": true
+  },
+  "bio": {
+    "hero": "Creative and detail-oriented Full-Stack Web Developer with a strong foundation in Computer Science. I design and build fast, modern, and responsive websites and web applications for businesses and individuals. From landing pages to full-stack platforms — I turn ideas into clean, functional products.",
+    "about1": "I'm a Computer Science student and freelance developer from Lebanon. I love building things for the web — from simple landing pages to complex full-stack applications. I focus on writing clean code, delivering fast, and making sure every project looks and works great.",
+    "about2": "Currently open for freelance work and excited to collaborate on interesting projects that make a real impact."
+  },
+  "stats": [
+    {
+      "value": "3+",
+      "label": "Years Coding"
+    },
+    {
+      "value": "20+",
+      "label": "Projects Built"
+    },
+    {
+      "value": "10+",
+      "label": "Happy Clients"
+    }
+  ],
+  "skills": [
+    {
+      "name": "HTML5",
+      "category": "Frontend",
+      "color": "#e34f26"
+    },
+    {
+      "name": "CSS3",
+      "category": "Frontend",
+      "color": "#1572b6"
+    },
+    {
+      "name": "JavaScript",
+      "category": "Frontend",
+      "color": "#f7df1e"
+    },
+    {
+      "name": "React",
+      "category": "Frontend",
+      "color": "#61dafb"
+    },
+    {
+      "name": "Node.js",
+      "category": "Backend",
+      "color": "#339933"
+    },
+    {
+      "name": "Express",
+      "category": "Backend",
+      "color": "#ffffff"
+    },
+    {
+      "name": "PHP",
+      "category": "Backend",
+      "color": "#777bb4"
+    },
+    {
+      "name": "MongoDB",
+      "category": "Database",
+      "color": "#47a248"
+    },
+    {
+      "name": "MySQL",
+      "category": "Database",
+      "color": "#4479a1"
+    },
+    {
+      "name": "WordPress",
+      "category": "CMS",
+      "color": "#21759b"
+    },
+    {
+      "name": "Git",
+      "category": "Tools",
+      "color": "#f05032"
+    },
+    {
+      "name": "GitHub",
+      "category": "Tools",
+      "color": "#ffffff"
+    },
+    {
+      "name": "REST API",
+      "category": "Tools",
+      "color": "#06b6d4"
+    },
+    {
+      "name": "VS Code",
+      "category": "Tools",
+      "color": "#007acc"
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "Database",
+      "color": "#336791"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Sharp Cuts — Barbershop Website",
+      "description": "A sleek, modern landing page for a contemporary barbershop featuring online booking, services showcase, and gallery.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "liveUrl": "#",
+      "sourceUrl": "#",
+      "gradient": "blue",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Beirut Bites — Restaurant Website",
+      "description": "An elegant landing page for a Lebanese restaurant, featuring menu display, reservations, and rich cultural visuals.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "liveUrl": "#",
+      "sourceUrl": "#",
+      "gradient": "orange",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "TaskFlow — Task Management App",
+      "description": "A full-stack productivity app with user auth, drag-and-drop boards, real-time updates, and team collaboration.",
+      "tags": [
+        "React",
+        "Node.js",
+        "MongoDB"
+      ],
+      "liveUrl": "#",
+      "sourceUrl": "#",
+      "gradient": "purple",
+      "featured": true
+    }
+  ],
+  "services": [
+    {
+      "title": "Landing Pages",
+      "desc": "High-converting, responsive landing pages that look great on every device and drive real results."
+    },
+    {
+      "title": "Full-Stack Web Apps",
+      "desc": "Complete web applications with React, Node.js, Express, and MongoDB from front to back."
+    },
+    {
+      "title": "WordPress Development",
+      "desc": "Custom WordPress themes, plugins, and full site setup tailored to your brand."
+    },
+    {
+      "title": "React Development",
+      "desc": "Modern, fast, interactive UIs built with React — smooth, scalable, and performant."
+    },
+    {
+      "title": "Bug Fixes & Optimization",
+      "desc": "Quick fixes, performance optimization, and code cleanup to keep your site fast and reliable."
+    },
+    {
+      "title": "API Development",
+      "desc": "RESTful APIs with Node.js, Express, and database integration — built to scale."
+    }
+  ],
+  "settings": {
+    "accentColor": "#3b82f6",
+    "seo": {
+      "title": "Wael Taleb — Full-Stack Web Developer",
+      "description": "Full-Stack Web Developer from Lebanon. I build fast, modern websites and web applications."
+    }
+  }
+}

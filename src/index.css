@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ─── ACCENT (overridable from content.json via settings.accentColor) ─── */
+:root {
+  --c-accent: #3b82f6;
+}
+
+/* ─── DARK THEME (default) ────────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --c-bg:           #0a0a0a;
+  --c-bg-alt:       #080808;
+  --c-surface:      rgba(255, 255, 255, 0.03);
+  --c-surface-2:    rgba(255, 255, 255, 0.05);
+  --c-border:       rgba(255, 255, 255, 0.07);
+  --c-border-md:    rgba(255, 255, 255, 0.10);
+  --c-border-strong:rgba(255, 255, 255, 0.20);
+  --c-nav:          rgba(10,  10,  10,  0.88);
+  --c-nav-solid:    rgba(10,  10,  10,  0.96);
+  --c-floating:     rgba(12,  12,  12,  0.92);
+  --c-text:         #f1f5f9;
+  --c-text-dim:     #94a3b8;
+  --c-muted:        #64748b;
+  --c-submuted:     #475569;
+  --c-faint:        #334155;
+  --c-faintest:     #1e293b;
+  --c-scrollbar:    #0a0a0a;
+  --c-shadow:       rgba(0, 0, 0, 0.5);
+}
+
+/* ─── LIGHT THEME ─────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --c-bg:           #f8fafc;
+  --c-bg-alt:       #f1f5f9;
+  --c-surface:      rgba(255, 255, 255, 0.70);
+  --c-surface-2:    rgba(255, 255, 255, 0.85);
+  --c-border:       rgba(0,   0,   0,   0.08);
+  --c-border-md:    rgba(0,   0,   0,   0.12);
+  --c-border-strong:rgba(0,   0,   0,   0.20);
+  --c-nav:          rgba(248, 250, 252, 0.88);
+  --c-nav-solid:    rgba(248, 250, 252, 0.97);
+  --c-floating:     rgba(255, 255, 255, 0.95);
+  --c-text:         #0f172a;
+  --c-text-dim:     #334155;
+  --c-muted:        #475569;
+  --c-submuted:     #64748b;
+  --c-faint:        #94a3b8;
+  --c-faintest:     #cbd5e1;
+  --c-scrollbar:    #f1f5f9;
+  --c-shadow:       rgba(0, 0, 0, 0.12);
+}
+
+/* ─── BASE ─────────────────────────────────────────────────────────────── */
+/* NOTE: Tailwind v4 already resets margin/padding inside @layer base.
+   Do NOT add * { margin:0; padding:0 } here — it would be unlayered and
+   override all Tailwind utility classes (px-*, py-*, gap-*, etc.). */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--c-scrollbar); }
+::-webkit-scrollbar-thumb  { background: #3b82f6; border-radius: 3px; }
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--c-text);
+}
+
+/* ─── UTILITIES ────────────────────────────────────────────────────────── */
+.glass {
+  background: var(--c-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--c-border);
+}
+
+.glass-strong {
+  background: var(--c-surface-2);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--c-border-md);
+}
+
+.glow {
+  box-shadow: 0 0 30px rgba(59,130,246,0.3), 0 0 60px rgba(59,130,246,0.1);
+}
+
+.glow-text {
+  text-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[dir="rtl"] {
+  font-family: 'Inter', 'Segoe UI', Tahoma, system-ui, sans-serif;
+}
+
+/* ─── BUTTONS ──────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.5);
+}
+.btn-primary > * { position: relative; z-index: 1; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--c-text);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--c-border-strong);
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background: rgba(59,130,246,0.08);
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(59,130,246,0.10);
+  border: 1px solid rgba(59,130,246,0.30);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3b82f6;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}

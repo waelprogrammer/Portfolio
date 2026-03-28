@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm init:*)",
+      "Bash(npm pkg:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(node:*)",
+      "Bash(ls /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.png /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpeg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.webp)",
+      "Bash(\"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/data/content.js\":*)"
+    ]
+  }
+}
