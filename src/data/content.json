@@ -116,8 +116,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "#",
-      "sourceUrl": "#",
+      "liveUrl": "https://sharp-cuts-one.vercel.app/",
+      "sourceUrl": "https://github.com/waelprogrammer/sharp-cuts",
       "gradient": "blue",
       "featured": true
     },
@@ -130,23 +130,37 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "#",
-      "sourceUrl": "#",
+      "liveUrl": "https://beirut-bites-flame.vercel.app/",
+      "sourceUrl": "https://github.com/waelprogrammer/beirut-bites",
       "gradient": "orange",
       "featured": true
     },
     {
-      "id": 3,
-      "title": "TaskFlow — Task Management App",
-      "description": "A full-stack productivity app with user auth, drag-and-drop boards, real-time updates, and team collaboration.",
+      "id": 1774796756890,
+      "title": "XO Game",
+      "description": "XO Game — An interactive Tic-Tac-Toe web game with two-player mode and three AI difficulty levels (Easy, Medium, Impossible), featuring a clean UI and sound effects for an engaging experience",
       "tags": [
-        "React",
-        "Node.js",
-        "MongoDB"
+        "HTML",
+        "CSS",
+        "JavaScript"
       ],
-      "liveUrl": "#",
-      "sourceUrl": "#",
-      "gradient": "purple",
+      "liveUrl": "https://waelprogrammer.github.io/XOgame/",
+      "sourceUrl": "https://github.com/waelprogrammer/XOgame",
+      "gradient": "green",
+      "featured": true
+    },
+    {
+      "id": 1774797215554,
+      "title": "Dannieh Explorer",
+      "description": "Discover Dannieh — A website exploring the history, culture, and natural beauty of Dannieh, North Lebanon, featuring photos, landmarks, and local heritage.",
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "liveUrl": "https://waelprogrammer.github.io/Dannieh/",
+      "sourceUrl": "https://github.com/waelprogrammer/Dannieh",
+      "gradient": "orange",
       "featured": true
     }
   ],
