@@ -60,7 +60,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter basename="/Portfolio">
+    <BrowserRouter>
       <ThemeProvider>
         <LanguageProvider>
           <AppContent />
