@@ -75,7 +75,7 @@ export default function Services() {
   const [ref, inView] = useInView(0.1)
 
   return (
-    <section id="services" className="relative py-32 overflow-hidden" style={{ background: 'var(--c-bg)' }}>
+    <section id="services" className="relative pt-16 pb-32 overflow-hidden" style={{ background: 'var(--c-bg)' }}>
       {/* Subtle section divider glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 opacity-40"

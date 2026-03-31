@@ -11,7 +11,7 @@ export default function About() {
   const [ref, inView] = useInView(0.1)
 
   return (
-    <section id="about" className="relative py-32" style={{ background: 'var(--c-bg-alt)', overflowX: 'clip' }}>
+    <section id="about" className="relative pt-16 pb-32" style={{ background: 'var(--c-bg-alt)', overflowX: 'clip' }}>
       <div
         className="absolute top-0 inset-x-0 h-px opacity-10"
         style={{ background: 'linear-gradient(to right, transparent, #8b5cf6, transparent)' }}

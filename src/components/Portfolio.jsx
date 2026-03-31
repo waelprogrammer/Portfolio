@@ -150,7 +150,7 @@ export default function Portfolio() {
   const featured = projects.filter(p => p.featured)
 
   return (
-    <section id="portfolio" className="relative py-32 overflow-hidden" style={{ background: 'var(--c-bg-alt)' }}>
+    <section id="portfolio" className="relative pt-16 pb-32 overflow-hidden" style={{ background: 'var(--c-bg-alt)' }}>
       <div
         className="absolute top-0 inset-x-0 h-px opacity-20"
         style={{ background: 'linear-gradient(to right, transparent, #3b82f6, #06b6d4, transparent)' }}

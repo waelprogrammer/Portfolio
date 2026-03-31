@@ -162,7 +162,7 @@ export default function Skills() {
   const grouped = CATEGORY_LABELS_EN.map(cat => skills.filter(s => s.category === cat))
 
   return (
-    <section id="skills" className="relative py-32 overflow-hidden" style={{ background: 'var(--c-bg)' }}>
+    <section id="skills" className="relative pt-16 pb-32 overflow-hidden" style={{ background: 'var(--c-bg)' }}>
       <div
         className="absolute top-0 inset-x-0 h-px opacity-10"
         style={{ background: 'linear-gradient(to right, transparent, #06b6d4, transparent)' }}

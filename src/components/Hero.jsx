@@ -3,7 +3,7 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { ArrowDown, Mail, Sparkles } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './Icons'
 import { useLang } from '../context/LanguageContext'
-import { personal, stats } from '../data/content'
+import { personal } from '../data/content'
 
 // Lazy-load Three.js — only downloads after the rest of the page loads
 const Scene3D = lazy(() => import('./Scene3D'))
@@ -24,6 +24,99 @@ function GridOverlay() {
   )
 }
 
+// Glowing sphere badges that orbit the photo
+function SkillBadge({ skill }) {
+  const badges = {
+    react: {
+      sphere: 'radial-gradient(circle at 35% 30%, rgba(97,218,251,0.55) 0%, rgba(97,218,251,0.2) 45%, rgba(10,60,100,0.6) 100%)',
+      border: 'rgba(97,218,251,0.7)',
+      glow: '0 0 22px 6px rgba(97,218,251,0.65)',
+      highlight: 'rgba(97,218,251,0.55)',
+      icon: (
+        <svg width="24" height="24" viewBox="-11.5 -10.23 23 20.46" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.1">
+          <circle r="2.05" fill="rgba(255,255,255,0.9)" stroke="none" />
+          <ellipse rx="11" ry="4.2" />
+          <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+          <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+        </svg>
+      ),
+    },
+    js: {
+      sphere: 'radial-gradient(circle at 35% 30%, rgba(247,223,30,0.55) 0%, rgba(247,223,30,0.2) 45%, rgba(80,60,0,0.6) 100%)',
+      border: 'rgba(247,223,30,0.7)',
+      glow: '0 0 22px 6px rgba(247,223,30,0.6)',
+      highlight: 'rgba(247,223,30,0.55)',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)">
+          <path d="M3 3h18v18H3V3zm16.525 13.707c-.131-.821-.666-1.511-2.252-2.155-.552-.259-1.165-.438-1.349-.854-.068-.248-.078-.382-.034-.529.113-.484.686-.629 1.137-.495.293.09.563.315.732.676.775-.507.775-.507 1.316-.844-.203-.314-.304-.451-.439-.586-.473-.528-1.103-.798-2.126-.775l-.528.067c-.507.124-.991.395-1.283.754-.855.968-.608 2.655.427 3.354 1.023.765 2.521.933 2.712 1.653.18.878-.652 1.159-1.475 1.058-.607-.136-.945-.44-1.316-1.002l-1.372.788c.157.359.337.517.607.832 1.305 1.316 4.568 1.249 5.153-.754.021-.067.18-.528.056-1.237l.034.049zm-6.737-5.434h-1.686c0 1.453-.007 2.898-.007 4.354 0 .924.047 1.772-.104 2.033-.247.517-.886.451-1.175.36-.297-.147-.448-.349-.623-.641-.047-.078-.082-.146-.095-.146l-1.368.844c.229.473.563.879.994 1.137.641.383 1.502.507 2.404.305.588-.169 1.095-.519 1.358-1.059.384-.697.302-1.553.298-2.509.012-1.541 0-3.083 0-4.635l.004-.043z" />
+        </svg>
+      ),
+    },
+    node: {
+      sphere: 'radial-gradient(circle at 35% 30%, rgba(104,160,99,0.55) 0%, rgba(104,160,99,0.2) 45%, rgba(10,50,10,0.6) 100%)',
+      border: 'rgba(104,160,99,0.7)',
+      glow: '0 0 22px 6px rgba(104,160,99,0.6)',
+      highlight: 'rgba(104,160,99,0.55)',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)">
+          <path d="M11.998.016a1.273 1.273 0 00-.636.18L1.245 5.863a1.273 1.273 0 00-.636 1.105v11.57c0 .457.244.879.636 1.106l10.117 5.666a1.273 1.273 0 001.274 0l10.118-5.666a1.273 1.273 0 00.636-1.105V6.968a1.273 1.273 0 00-.636-1.105L12.634.196a1.273 1.273 0 00-.636-.18z" opacity=".5"/>
+          <path d="M11.79 4.456c.047 0 .092.01.134.03l3.558 2.052a.27.27 0 01.135.232v4.103a.27.27 0 01-.135.232l-3.558 2.053a.27.27 0 01-.27 0L8.096 11.11a.27.27 0 01-.135-.232V6.774a.27.27 0 01.135-.233L11.654 4.49a.27.27 0 01.136-.034z" />
+        </svg>
+      ),
+    },
+    mongo: {
+      sphere: 'radial-gradient(circle at 35% 30%, rgba(71,162,72,0.55) 0%, rgba(71,162,72,0.2) 45%, rgba(5,40,5,0.6) 100%)',
+      border: 'rgba(71,162,72,0.7)',
+      glow: '0 0 22px 6px rgba(71,162,72,0.6)',
+      highlight: 'rgba(71,162,72,0.55)',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)">
+          <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z" />
+        </svg>
+      ),
+    },
+    css: {
+      sphere: 'radial-gradient(circle at 35% 30%, rgba(21,114,182,0.55) 0%, rgba(21,114,182,0.2) 45%, rgba(5,20,60,0.6) 100%)',
+      border: 'rgba(21,114,182,0.7)',
+      glow: '0 0 22px 6px rgba(21,114,182,0.6)',
+      highlight: 'rgba(21,114,182,0.55)',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)">
+          <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.413z" />
+        </svg>
+      ),
+    },
+  }
+
+  const b = badges[skill]
+  if (!b) return null
+
+  return (
+    <div style={{
+      width: '52px', height: '52px',
+      borderRadius: '50%',
+      background: b.sphere,
+      border: `1.5px solid ${b.border}`,
+      boxShadow: `${b.glow}, inset 0 2px 6px rgba(255,255,255,0.18), inset 0 -2px 6px rgba(0,0,0,0.3)`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backdropFilter: 'blur(6px)',
+      position: 'relative',
+    }}>
+      {/* Top-left specular highlight */}
+      <div style={{
+        position: 'absolute',
+        top: '6px', left: '8px',
+        width: '14px', height: '8px',
+        borderRadius: '50%',
+        background: 'rgba(255,255,255,0.25)',
+        filter: 'blur(3px)',
+        pointerEvents: 'none',
+      }} />
+      {b.icon}
+    </div>
+  )
+}
+
 // 3D photo with orbital rings + mouse tilt
 function HeroPhoto() {
   const containerRef = useRef(null)
@@ -32,9 +125,6 @@ function HeroPhoto() {
 
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [14, -14]), { stiffness: 350, damping: 30 })
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-14, 14]), { stiffness: 350, damping: 30 })
-
-  const glowX = useTransform(mouseX, [-0.5, 0.5], ['20%', '80%'])
-  const glowY = useTransform(mouseY, [-0.5, 0.5], ['20%', '80%'])
 
   const onMove = (e) => {
     const r = containerRef.current?.getBoundingClientRect()
@@ -50,73 +140,63 @@ function HeroPhoto() {
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       style={{
-        width: '560px', height: '560px',
+        width: '680px', height: '680px',
         position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        perspective: '1000px',
+        perspective: '1200px',
       }}
     >
-      {/* ── Ambient glow ── */}
-      <div style={{
-        position: 'absolute', inset: '40px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(59,130,246,0.22) 0%, rgba(6,182,212,0.12) 50%, transparent 75%)',
-        filter: 'blur(32px)', pointerEvents: 'none',
-      }} />
-
-      {/* ── Outer orbital ring ── */}
+      {/* ── Outer orbital ring — React (top) + JS (bottom) ── */}
       <div style={{
         position: 'absolute', inset: '4px', borderRadius: '50%',
-        border: '1px solid rgba(59,130,246,0.25)',
+        border: '2px solid rgba(59,130,246,0.35)',
+        boxShadow: '0 0 18px 2px rgba(59,130,246,0.18), inset 0 0 18px 2px rgba(59,130,246,0.08)',
         animation: 'orbit1 9s linear infinite',
         transformStyle: 'preserve-3d',
       }}>
-        <div style={{
-          position: 'absolute', top: '-7px', left: '50%', transform: 'translateX(-50%)',
-          width: '14px', height: '14px', borderRadius: '50%',
-          background: '#3b82f6', boxShadow: '0 0 18px 6px rgba(59,130,246,0.8)',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%)',
-          width: '8px', height: '8px', borderRadius: '50%',
-          background: '#60a5fa', boxShadow: '0 0 10px rgba(96,165,250,0.6)',
-        }} />
+        <div style={{ position: 'absolute', top: '-26px', left: '50%', transform: 'translateX(-50%)' }}>
+          <SkillBadge skill="react" />
+        </div>
+        <div style={{ position: 'absolute', bottom: '-26px', left: '50%', transform: 'translateX(-50%)' }}>
+          <SkillBadge skill="js" />
+        </div>
       </div>
 
-      {/* ── Middle orbital ring ── */}
+      {/* ── Middle orbital ring — Node.js + CSS ── */}
       <div style={{
-        position: 'absolute', inset: '56px', borderRadius: '50%',
-        border: '1px solid rgba(139,92,246,0.3)',
+        position: 'absolute', inset: '80px', borderRadius: '50%',
+        border: '2px solid rgba(139,92,246,0.35)',
+        boxShadow: '0 0 18px 2px rgba(139,92,246,0.18), inset 0 0 18px 2px rgba(139,92,246,0.08)',
         animation: 'orbit2 7s linear infinite',
         transformStyle: 'preserve-3d',
       }}>
-        <div style={{
-          position: 'absolute', top: '-6px', left: '50%', transform: 'translateX(-50%)',
-          width: '12px', height: '12px', borderRadius: '50%',
-          background: '#8b5cf6', boxShadow: '0 0 16px 4px rgba(139,92,246,0.8)',
-        }} />
+        <div style={{ position: 'absolute', top: '-26px', left: '50%', transform: 'translateX(-50%)' }}>
+          <SkillBadge skill="node" />
+        </div>
+        <div style={{ position: 'absolute', bottom: '-26px', left: '50%', transform: 'translateX(-50%)' }}>
+          <SkillBadge skill="css" />
+        </div>
       </div>
 
-      {/* ── Inner orbital ring ── */}
+      {/* ── Inner orbital ring — MongoDB ── */}
       <div style={{
-        position: 'absolute', inset: '108px', borderRadius: '50%',
-        border: '1px solid rgba(6,182,212,0.25)',
-        animation: 'orbit3 12s linear infinite',
+        position: 'absolute', inset: '158px', borderRadius: '50%',
+        border: '2px solid rgba(6,182,212,0.35)',
+        boxShadow: '0 0 18px 2px rgba(6,182,212,0.18), inset 0 0 18px 2px rgba(6,182,212,0.08)',
+        animation: 'orbit3 11s linear infinite',
         transformStyle: 'preserve-3d',
       }}>
-        <div style={{
-          position: 'absolute', top: '-5px', left: '50%', transform: 'translateX(-50%)',
-          width: '10px', height: '10px', borderRadius: '50%',
-          background: '#06b6d4', boxShadow: '0 0 14px 4px rgba(6,182,212,0.7)',
-        }} />
+        <div style={{ position: 'absolute', top: '-26px', left: '50%', transform: 'translateX(-50%)' }}>
+          <SkillBadge skill="mongo" />
+        </div>
       </div>
 
       {/* ── Photo card with 3D tilt ── */}
       <motion.div
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d', position: 'relative', zIndex: 10 }}
       >
-        {/* Card */}
         <div style={{
-          width: '260px', height: '340px', borderRadius: '28px',
+          width: '300px', height: '400px', borderRadius: '28px',
           overflow: 'hidden', position: 'relative',
           border: '1px solid rgba(59,130,246,0.45)',
           boxShadow: '0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.07)',
@@ -137,12 +217,6 @@ function HeroPhoto() {
               {personal.name.charAt(0)}
             </div>
           )}
-
-          {/* Moving shimmer that follows mouse */}
-          <motion.div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,0.06) 0%, transparent 60%)',
-          }} />
 
           {/* Bottom gradient + name */}
           <div style={{
@@ -167,7 +241,7 @@ function HeroPhoto() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
           style={{
-            position: 'absolute', top: '30px', right: '20px', zIndex: 20,
+            position: 'absolute', top: '50px', right: '40px', zIndex: 20,
             display: 'flex', alignItems: 'center', gap: '8px',
             padding: '9px 16px', borderRadius: '20px',
             background: 'rgba(16,185,129,0.1)',
@@ -185,50 +259,6 @@ function HeroPhoto() {
           </span>
         </motion.div>
       )}
-
-      {/* ── Floating stat — left ── */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          position: 'absolute', left: '8px', top: '160px', zIndex: 20,
-          padding: '16px 20px', borderRadius: '18px',
-          background: 'var(--c-floating)',
-          border: '1px solid var(--c-border-md)',
-          backdropFilter: 'blur(16px)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-          minWidth: '120px',
-        }}
-      >
-        <p style={{ fontSize: '32px', fontWeight: 900, color: '#3b82f6', lineHeight: 1 }}>
-          {stats[0]?.value ?? '3+'}
-        </p>
-        <p style={{ fontSize: '11px', color: 'var(--c-muted)', marginTop: '5px' }}>
-          {stats[0]?.label}
-        </p>
-      </motion.div>
-
-      {/* ── Floating stat — right ── */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-        style={{
-          position: 'absolute', right: '8px', bottom: '150px', zIndex: 20,
-          padding: '16px 20px', borderRadius: '18px',
-          background: 'var(--c-floating)',
-          border: '1px solid var(--c-border-md)',
-          backdropFilter: 'blur(16px)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-          minWidth: '120px',
-        }}
-      >
-        <p style={{ fontSize: '32px', fontWeight: 900, color: '#06b6d4', lineHeight: 1 }}>
-          {stats[1]?.value ?? '20+'}
-        </p>
-        <p style={{ fontSize: '11px', color: 'var(--c-muted)', marginTop: '5px' }}>
-          {stats[1]?.label}
-        </p>
-      </motion.div>
 
       <style>{`
         @keyframes orbit1 {
