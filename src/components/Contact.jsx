@@ -60,12 +60,6 @@ export default function Contact() {
       href: `mailto:${personal.email}`,
     },
     {
-      icon: WhatsAppIcon,
-      label: 'WhatsApp',
-      value: personal.whatsapp,
-      href: whatsappUrl,
-    },
-    {
       icon: MapPin,
       label: t.contact.info.locationLabel,
       value: personal.location,
@@ -177,6 +171,31 @@ export default function Contact() {
                 {t.contact.info.avail}
               </p>
             </div>
+
+            {/* WhatsApp button */}
+            {personal.whatsapp && (
+              <motion.a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center gap-3 p-4 rounded-2xl font-bold text-sm"
+                style={{
+                  background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                  color: '#fff',
+                  boxShadow: '0 8px 24px rgba(37,211,102,0.35)',
+                  textDecoration: 'none',
+                  flexDirection: isRTL ? 'row-reverse' : 'row',
+                }}
+              >
+                <WhatsAppIcon size={20} />
+                <div style={{ textAlign: isRTL ? 'right' : 'left' }}>
+                  <p style={{ fontWeight: 700, fontSize: '14px' }}>Chat on WhatsApp</p>
+                  <p style={{ fontWeight: 400, fontSize: '12px', opacity: 0.85 }}>{personal.whatsapp}</p>
+                </div>
+              </motion.a>
+            )}
 
             {/* Socials */}
             <div>
