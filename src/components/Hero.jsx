@@ -1,11 +1,9 @@
-import { Suspense, lazy, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { ArrowDown, Mail, Sparkles } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './Icons'
 import { useLang } from '../context/LanguageContext'
 import { personal } from '../data/content'
-
-const Scene3D = lazy(() => import('./Scene3D'))
 
 function GridOverlay() {
   return (
@@ -296,7 +294,6 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ background: 'var(--c-bg)', paddingTop: '80px', paddingBottom: '80px' }}
     >
-      <Suspense fallback={null}><Scene3D /></Suspense>
       <GridOverlay />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
