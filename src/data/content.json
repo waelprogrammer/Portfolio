@@ -109,34 +109,6 @@
   ],
   "projects": [
     {
-      "id": 1,
-      "title": "Sharp Cuts — Barbershop Website",
-      "description": "A sleek, modern landing page for a contemporary barbershop featuring online booking, services showcase, and gallery.",
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "liveUrl": "https://sharp-cuts-one.vercel.app/",
-      "sourceUrl": "https://github.com/waelprogrammer/sharp-cuts",
-      "gradient": "blue",
-      "featured": true
-    },
-    {
-      "id": 2,
-      "title": "Beirut Bites — Restaurant Website",
-      "description": "An elegant landing page for a Lebanese restaurant, featuring menu display, reservations, and rich cultural visuals.",
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "liveUrl": "https://beirut-bites-flame.vercel.app/",
-      "sourceUrl": "https://github.com/waelprogrammer/beirut-bites",
-      "gradient": "orange",
-      "featured": true
-    },
-    {
       "id": 1774796756890,
       "title": "XO Game",
       "description": "XO Game — An interactive Tic-Tac-Toe web game with two-player mode and three AI difficulty levels (Easy, Medium, Impossible), featuring a clean UI and sound effects for an engaging experience",
@@ -161,6 +133,19 @@
       ],
       "liveUrl": "https://waelprogrammer.github.io/Dannieh/",
       "sourceUrl": "https://github.com/waelprogrammer/Dannieh",
+      "gradient": "orange",
+      "featured": true
+    },
+    {
+      "id": 1781608755991,
+      "title": "BookStore",
+      "description": "▸\tBuilt a full-stack bookstore with catalogue browsing, cart, reviews, wishlist requests, transactional checkout, and a seven-tab admin dashboard for managing books, orders, and inventory.\n▸\tEngineered a parameterized data-access layer (SQL-injection safe) and secured accounts with Forms authentication and PBKDF2 password hashing.",
+      "tags": [
+        "ASP.NET",
+        "C#"
+      ],
+      "liveUrl": "",
+      "sourceUrl": "https://github.com/waelprogrammer/bookstore-aspnet",
       "gradient": "orange",
       "featured": true
     }
@@ -192,7 +177,7 @@
     }
   ],
   "settings": {
-    "accentColor": "#3b82f6",
+    "accentColor": "#2563eb",
     "seo": {
       "title": "Wael Taleb — Full-Stack Web Developer",
       "description": "Full-Stack Web Developer from Lebanon. I build fast, modern websites and web applications."

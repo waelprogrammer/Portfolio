@@ -9,7 +9,9 @@
       "Bash(node:*)",
       "Bash(ls /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.png /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.jpeg /c/Users/waelp/Desktop/ClaudeCode/Portfolio/*.webp)",
       "Bash(\"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/data/content.js\":*)",
-      "WebFetch(domain:waelprogrammer.github.io)"
+      "WebFetch(domain:waelprogrammer.github.io)",
+      "Bash(sed -i 's/className=\"\"relative py-32\"\"/className=\"\"relative pt-16 pb-32\"\"/g' \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/About.jsx\" \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/Skills.jsx\" \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/Services.jsx\")",
+      "Bash(sed -i 's/className=\"\"relative py-32 overflow-hidden\"\"/className=\"\"relative pt-16 pb-32 overflow-hidden\"\"/g' \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/Portfolio.jsx\" \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/Skills.jsx\" \"C:/Users/waelp/Desktop/ClaudeCode/Portfolio/src/components/Services.jsx\")"
     ]
   }
 }

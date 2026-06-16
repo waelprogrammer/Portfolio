@@ -6,30 +6,31 @@
 
 /* ─── ACCENT (overridable from content.json via settings.accentColor) ─── */
 :root {
-  --c-accent: #3b82f6;
+  --c-accent: #2563eb;       /* refined, professional blue */
+  --c-accent-soft: #3b82f6;  /* lighter blue for links / hovers */
 }
 
-/* ─── DARK THEME (default) ────────────────────────────────────────────── */
+/* ─── DARK THEME (default) — deep navy, professional ─────────────────────── */
 :root,
 [data-theme="dark"] {
-  --c-bg:           #0a0a0a;
-  --c-bg-alt:       #080808;
-  --c-surface:      rgba(255, 255, 255, 0.03);
-  --c-surface-2:    rgba(255, 255, 255, 0.05);
-  --c-border:       rgba(255, 255, 255, 0.07);
-  --c-border-md:    rgba(255, 255, 255, 0.10);
-  --c-border-strong:rgba(255, 255, 255, 0.20);
-  --c-nav:          rgba(10,  10,  10,  0.88);
-  --c-nav-solid:    rgba(10,  10,  10,  0.96);
-  --c-floating:     rgba(12,  12,  12,  0.92);
+  --c-bg:           #0b1120;  /* deep navy-slate */
+  --c-bg-alt:       #0d1426;  /* alternating sections */
+  --c-surface:      rgba(255, 255, 255, 0.025);
+  --c-surface-2:    rgba(255, 255, 255, 0.045);
+  --c-border:       rgba(148, 163, 184, 0.10);
+  --c-border-md:    rgba(148, 163, 184, 0.16);
+  --c-border-strong:rgba(148, 163, 184, 0.28);
+  --c-nav:          rgba(11,  17,  32,  0.82);
+  --c-nav-solid:    rgba(11,  17,  32,  0.96);
+  --c-floating:     rgba(13,  20,  38,  0.92);
   --c-text:         #f1f5f9;
-  --c-text-dim:     #94a3b8;
-  --c-muted:        #64748b;
-  --c-submuted:     #475569;
-  --c-faint:        #334155;
-  --c-faintest:     #1e293b;
-  --c-scrollbar:    #0a0a0a;
-  --c-shadow:       rgba(0, 0, 0, 0.5);
+  --c-text-dim:     #cbd5e1;
+  --c-muted:        #94a3b8;
+  --c-submuted:     #64748b;
+  --c-faint:        #475569;
+  --c-faintest:     #334155;
+  --c-scrollbar:    #0b1120;
+  --c-shadow:       rgba(2, 6, 23, 0.55);
 }
 
 /* ─── LIGHT THEME ─────────────────────────────────────────────────────── */
@@ -78,10 +79,11 @@ section[id] {
 
 ::-webkit-scrollbar        { width: 6px; }
 ::-webkit-scrollbar-track  { background: var(--c-scrollbar); }
-::-webkit-scrollbar-thumb  { background: #3b82f6; border-radius: 3px; }
+::-webkit-scrollbar-thumb  { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-accent); }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
+  background: rgba(37, 99, 235, 0.25);
   color: var(--c-text);
 }
 
@@ -100,16 +102,19 @@ section[id] {
   border: 1px solid var(--c-border-md);
 }
 
+/* Subtle, professional elevation — no neon glow */
 .glow {
-  box-shadow: 0 0 30px rgba(59,130,246,0.3), 0 0 60px rgba(59,130,246,0.1);
+  box-shadow: 0 10px 30px var(--c-shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
 }
 
+/* Neutralised — kept so existing markup still works, but no neon text-glow */
 .glow-text {
-  text-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+  text-shadow: none;
 }
 
+/* Refined single-family blue gradient (no purple/cyan rainbow) */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #8b5cf6 100%);
+  background: linear-gradient(120deg, #60a5fa 0%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -125,30 +130,31 @@ section[id] {
   align-items: center;
   gap: 8px;
   padding: 12px 28px;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: var(--c-accent);
   color: white;
   border-radius: 8px;
   font-weight: 600;
   font-size: 15px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
   border: none;
   text-decoration: none;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 2px rgba(2,6,23,0.4);
 }
 .btn-primary::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  background: #1d4ed8;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 .btn-primary:hover::before { opacity: 1; }
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(59,130,246,0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.30);
 }
 .btn-primary > * { position: relative; z-index: 1; }
 
@@ -168,10 +174,10 @@ section[id] {
   text-decoration: none;
 }
 .btn-outline:hover {
-  background: rgba(59,130,246,0.08);
-  border-color: #3b82f6;
-  color: #3b82f6;
-  transform: translateY(-2px);
+  background: rgba(37,99,235,0.08);
+  border-color: var(--c-accent);
+  color: var(--c-accent-soft);
+  transform: translateY(-1px);
 }
 
 .section-tag {
@@ -179,12 +185,12 @@ section[id] {
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: rgba(59,130,246,0.10);
-  border: 1px solid rgba(59,130,246,0.30);
+  background: rgba(37,99,235,0.10);
+  border: 1px solid rgba(37,99,235,0.25);
   border-radius: 100px;
   font-size: 13px;
   font-weight: 600;
-  color: #3b82f6;
+  color: var(--c-accent-soft);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-bottom: 16px;

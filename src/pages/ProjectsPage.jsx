@@ -20,8 +20,13 @@ function PatternSVG({ gradient }) {
   )
 }
 
+// A URL counts as "real" only if it's set and not the empty/placeholder "#"
+const hasUrl = url => Boolean(url) && url !== '#'
+
 function ProjectCard({ project, index }) {
   const grad = GRADIENT_MAP[project.gradient] ?? GRADIENT_MAP.blue
+  const hasLive = hasUrl(project.liveUrl)
+  const hasSource = hasUrl(project.sourceUrl)
 
   return (
     <motion.article
@@ -66,28 +71,30 @@ function ProjectCard({ project, index }) {
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3"
           style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
         >
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={e => project.liveUrl === '#' && e.preventDefault()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
-            style={{ background: '#3b82f6', color: 'white' }}
-          >
-            <ExternalLink size={13} />
-            Live Demo
-          </a>
-          <a
-            href={project.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={e => project.sourceUrl === '#' && e.preventDefault()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
-            style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}
-          >
-            <GithubIcon size={13} />
-            Source
-          </a>
+          {hasLive && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
+              style={{ background: '#3b82f6', color: 'white' }}
+            >
+              <ExternalLink size={13} />
+              Live Demo
+            </a>
+          )}
+          {hasSource && (
+            <a
+              href={project.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
+              style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}
+            >
+              <GithubIcon size={13} />
+              Source
+            </a>
+          )}
         </div>
       </div>
 
