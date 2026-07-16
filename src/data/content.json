@@ -148,6 +148,22 @@
       "sourceUrl": "https://github.com/waelprogrammer/bookstore-aspnet",
       "gradient": "orange",
       "featured": true
+    },
+    {
+      "id": 1784215506692,
+      "title": "Shopvana",
+      "description": "▸ Built a complete storefront and admin panel: search, filtering, pagination, cart, checkout, order history,\nrole-based product/order management.\n▸ Priced orders server-side and reserved stock with atomic conditional updates, so a tampered request can't set its\nown price and concurrent checkouts can't oversell the last unit — both covered by tests.\n▸ Migrated the data layer from spreadsheet files to MongoDB, restructuring a single-file API into layered\ncontrollers, routes, models and middleware; 20 integration tests against a real in-process MongoDB.",
+      "tags": [
+        "React",
+        "Redux Toolkit",
+        "Express",
+        "MongoDB",
+        "JWT"
+      ],
+      "liveUrl": "https://shopvana-web.onrender.com/",
+      "sourceUrl": "https://github.com/waelprogrammer/shopvana.git",
+      "gradient": "red",
+      "featured": true
     }
   ],
   "services": [
