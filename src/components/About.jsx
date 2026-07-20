@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { MapPin, Download, Code, Users, Briefcase } from 'lucide-react'
+import { MapPin, Code, Users, Briefcase } from 'lucide-react'
 import { useInView } from '../hooks/useInView'
 import { useLang } from '../context/LanguageContext'
 import { personal, bio, stats } from '../data/content'
@@ -249,15 +249,6 @@ export default function About() {
               className="mt-10 flex flex-wrap gap-4"
               style={{ justifyContent: isRTL ? 'flex-end' : 'flex-start' }}
             >
-              <a
-                href={personal.cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                <Download size={16} />
-                {t.about.cta}
-              </a>
               <a
                 href="#contact"
                 onClick={(e) => {
